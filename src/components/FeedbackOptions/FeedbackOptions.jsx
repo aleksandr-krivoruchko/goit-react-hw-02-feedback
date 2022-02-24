@@ -8,3 +8,4 @@ export function FeedbackOptions(options, onLeaveFeedback) {
          <button type="button" className='btn btn--bad'>Bad</button>
    </>);
 }
+

@@ -9,3 +9,11 @@ export function Statistics({good, neutral, bad, total, positivePercentage}) {
       <p className='text'>Positive feedback: {positivePercentage}%</p>
    </>);
 }
+
+Statistics.propTypes = {
+good: PropTypes.number.isRequired,
+neutral: PropTypes.number.isRequired,
+bad: PropTypes.number.isRequired,
+total: PropTypes.number.isRequired,
+positivePercentage: PropTypes.number.isRequired,
+}
