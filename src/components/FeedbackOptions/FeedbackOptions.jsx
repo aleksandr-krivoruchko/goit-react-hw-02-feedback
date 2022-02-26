@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 
-
-export function FeedbackOptions(options, onLeaveFeedback) {
+export function FeedbackOptions({onLeaveFeedback}) {
    return (<>
-      <button type="button" className='btn btn--good'>Good</button>
-         <button type="button" className='btn btn--neutral'>Neutral</button>
-         <button type="button" className='btn btn--bad'>Bad</button>
-   </>);
+      <button type="button" className='btn btn--good'
+		 onClick={onLeaveFeedback}>good</button>
+
+		<button type="button" className='btn btn--neutral'
+		 onClick={onLeaveFeedback}>neutral</button>
+
+		<button type="button" className='btn btn--bad'
+		 onClick={onLeaveFeedback}>bad</button>
+   	</>);
 }
 

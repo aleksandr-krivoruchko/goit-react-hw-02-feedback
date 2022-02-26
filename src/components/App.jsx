@@ -1,40 +1,57 @@
+import { Component } from "react";
 import { Section } from "components/Section/Section";
 import { FeedbackOptions } from "components/FeedbackOptions/FeedbackOptions";
 import { Statistics } from "components/Statistics/Statistics";
-import { countTotalFeedback } from "../utils/countTotalFeedback";
+import { Notification } from "components/Notification/Notification";
+
+import { countTotalFeedback } from "utils/countTotalFeedback";
 import { countPositiveFeedbackPercentage } from "utils/countPositiveFeedbackPercentage";
 
-import state from "components/state.json";
+
+export class App extends Component {
+	state = {
+  good: 0,
+  neutral: 0,
+  bad: 0
+}
+
+checkForEmptyFeedback = () => {
+const allFeedbackValues = Object.values(this.state);
+const check = allFeedbackValues.every(value => value === 0);
+	return check;
+}
 
 
-const totalFeedback = countTotalFeedback(state);
-const positivePercentage = countPositiveFeedbackPercentage(state);
+onLeaveFeedback = (e) => {
+	const value = e.target.textContent;
 
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        fontSize: 30,
-        textTransform: 'uppercase',
-        color: '#010101',
-      }}
-    >
-     <Section title="please leave feedback">
-	  <FeedbackOptions ></FeedbackOptions>
+this.setState((prev)=>{
+return {
+	[value]: prev[value] + 1
+}
+})
+}
+render(){
+
+	  return (<>
+	  		<Section title="please leave feedback">
+			<FeedbackOptions onLeaveFeedback={this.onLeaveFeedback}/>
+		</Section>
+
+		<Section title="statistics">
+
+		  {this.checkForEmptyFeedback() 
+		  ? <Notification message="There is no feedback"/> 
+		  : <Statistics 
+		  	good={this.state.good}
+		   neutral={this.state.neutral}
+			 bad={this.state.bad}
+			  total={countTotalFeedback(this.state)}
+			   positivePercentage={countPositiveFeedbackPercentage(this.state)}>
+				</Statistics>} 
+
 	  </Section>
-	       <Section title="statistics">
-		  <Statistics 
-		  good={state.good}
-		   neutral={state.neutral}
-			 bad={state.bad}
-			  total={totalFeedback}
-			   positivePercentage={positivePercentage}>
-				</Statistics>
-	  </Section>
+	  </>);
+}
+}
 
-
-
-    </div>
-  );
-};
