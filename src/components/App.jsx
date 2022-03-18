@@ -4,23 +4,17 @@ import { FeedbackOptions } from "components/FeedbackOptions/FeedbackOptions";
 import { Statistics } from "components/Statistics/Statistics";
 import { Notification } from "components/Notification/Notification";
 
-import { countTotalFeedback } from "utils/countTotalFeedback";
-import { countPositiveFeedbackPercentage } from "utils/countPositiveFeedbackPercentage";
-
 
 export class App extends Component {
 	state = {
   good: 0,
   neutral: 0,
-  bad: 0
-}
-
-checkForEmptyFeedback = () => {
-const allFeedbackValues = Object.values(this.state);
-const check = allFeedbackValues.every(value => value === 0);
-	return check;
-}
-
+		bad: 0,
+	}
+	
+	countPositiveFeedbackPercentage = (state) => Math.round(state.good / (state.good + state.neutral + state.bad) * 100);
+	
+	countTotalFeedback = (state) => (state.good + state.neutral + state.bad);
 
 onLeaveFeedback = (e) => {
 	const value = e.target.textContent;
@@ -31,25 +25,23 @@ return {
 }
 })
 }
+	
 render(){
-
 	  return (<>
 	  		<Section title="please leave feedback">
-			<FeedbackOptions onLeaveFeedback={this.onLeaveFeedback}/>
+			<FeedbackOptions onLeaveFeedback={this.onLeaveFeedback} options={Object.keys(this.state)}/>
 		</Section>
 
 		<Section title="statistics">
-
-		  {this.checkForEmptyFeedback() 
+		  {this.countTotalFeedback(this.state) <= 0 
 		  ? <Notification message="There is no feedback"/> 
 		  : <Statistics 
 		  	good={this.state.good}
 		   neutral={this.state.neutral}
 			 bad={this.state.bad}
-			  total={countTotalFeedback(this.state)}
-			   positivePercentage={countPositiveFeedbackPercentage(this.state)}>
+			  total={this.countTotalFeedback(this.state)}
+			   positivePercentage={this.countPositiveFeedbackPercentage(this.state)}>
 				</Statistics>} 
-
 	  </Section>
 	  </>);
 }
