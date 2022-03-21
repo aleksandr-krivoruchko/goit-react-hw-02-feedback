@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 export function Section({title, children}) {
 	return <div className="section">
 
-		<h1 className="title">{title}</h1>
+				<h1 className="title">{title}</h1>
 
-		{children}
+				{children}
 
-	</div>
+			</div>
 }
 
 Section.propTypes = {
